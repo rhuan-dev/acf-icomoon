@@ -1,0 +1,40 @@
+{
+  "name": "acf-icomoon",
+  "version": "0.0.1-alpha",
+  "description": "Show IcoMoon select field based on selection.json generated from IcoMoon App",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhcarlosweb/acf-icomoon.git"
+  },
+  "keywords": [
+    "acf",
+    "icomoon",
+    "icons",
+    "font"
+  ],
+  "author": "Rhuan Carlos",
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/rhcarlosweb/acf-icomoon/issues"
+  },
+  "homepage": "https://github.com/rhcarlosweb/acf-icomoon#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "gulp": "^4.0.1",
+    "gulp-autoprefixer": "^6.1.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sass-glob": "^1.0.9",
+    "gulp-uglify": "^3.0.2",
+    "merge-stream": "^1.0.1"
+  },
+  "dependencies": {
+    "@fonticonpicker/fonticonpicker": "^3.1.1",
+    "jquery": "^3.4.1"
+  }
+}

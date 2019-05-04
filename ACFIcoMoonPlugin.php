@@ -1,7 +1,7 @@
 <?php
 /*
 	Plugin Name: Advanced Custom Fields: ACF IcoMoon
-	Plugin URI: https://github.com/rhcarlosweb/acf-icomoon-select
+	Plugin URI: https://github.com/rhcarlosweb/acf-icomoon
 	Description: Show IcoMoon select field based on selection.json generated from IcoMoon App
 	Version: 0.0.1-alpha
 	Author: Rhuan Carlos
