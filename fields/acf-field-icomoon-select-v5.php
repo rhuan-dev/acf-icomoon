@@ -15,7 +15,7 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
          *
          * @param $settings
          *
-         * @since 0.0.0-alpha
+         * @since 0.0.1-alpha
          */
         public function __construct( $settings ) {
             /**
@@ -49,7 +49,7 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
          *
          * @param $field
          *
-         * @since 0.0.0-alpha
+         * @since 0.0.1-alpha
          */
         function render_field_settings( $field ) {
             /**
@@ -70,7 +70,7 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
          *
          * @param $field
          *
-         * @since 0.0.0-alpha
+         * @since 0.0.1-alpha
          *
          */
         function render_field( $field ) {
