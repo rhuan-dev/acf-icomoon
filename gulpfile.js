@@ -20,7 +20,9 @@ const merge = require('merge-stream');
 /**
  Compile CSS
  */
-const sassNodePlugins = [];
+const sassNodePlugins = [
+    'assets/lib/fonticonpicker/css/base/jquery.fonticonpicker.min.css'
+];
 
 const sassFiles = [
     'assets/sass/**/*.scss'
@@ -56,6 +58,7 @@ function css() {
  * Compile JS
  */
 const jsFiles = [
+    'assets/lib/fonticonpicker/js/jquery.fonticonpicker.min.js',
     'assets/js/main.js'
 ];
 
@@ -72,16 +75,12 @@ function js() {
             ],
         }))
         .pipe(uglify())
-        .pipe(dest('assets/dist/js'))
-        .pipe(browserSync.stream());
+        .pipe(dest('assets/dist/js'));
 }
 
 /**
  * Watch files
  */
-const filesToWatch = [
-    '*.php',
-];
 function watchFiles() {
     watch(sassFiles, {usePolling: true}, css);
 
@@ -100,7 +99,6 @@ const build = series(js, css);
  * @type {function(): *}
  */
 exports.css = css;
-exports.cssAdmin = cssAdmin;
 exports.js = js;
 exports.build = build;
 exports.server = server;

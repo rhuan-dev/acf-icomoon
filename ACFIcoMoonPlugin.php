@@ -22,7 +22,7 @@ if ( !class_exists( 'ACFIcoMoonPlugin' ) ) :
         /**
          * ACFIcoMoonPlugin constructor.*
          *
-         * @since 0.0.0-alpha
+         * @since 0.0.1-alpha
          */
         function __construct() {
             # settings
@@ -38,13 +38,12 @@ if ( !class_exists( 'ACFIcoMoonPlugin' ) ) :
             add_action( 'acf/register_fields', [ $this, 'include_field' ] ); // v4 action
         }
 
-
         /**
          * include_field
          *
          * @param bool $version (int)major ACF version. Defaults to false
          *
-         * @since 0.0.0-alpha
+         * @since 0.0.1-alpha
          */
         function include_field( $version = false ) {
             # support empty $version
