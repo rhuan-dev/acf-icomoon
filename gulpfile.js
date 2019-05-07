@@ -21,7 +21,8 @@ const merge = require('merge-stream');
  Compile CSS
  */
 const sassNodePlugins = [
-    'assets/lib/fonticonpicker/css/base/jquery.fonticonpicker.min.css'
+    'assets/lib/fonticonpicker/css/base/jquery.fonticonpicker.min.css',
+    'assets/lib/fonticonpicker/css/themes/grey-theme/jquery.fonticonpicker.grey.min.css'
 ];
 
 const sassFiles = [

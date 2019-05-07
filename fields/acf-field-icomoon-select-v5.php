@@ -59,7 +59,8 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
                 'label'        => __( 'URL JSON file', 'rhicomoon' ),
                 'instructions' => __( 'Insert URL of the JSON file (selection.json) to generate list of icons' ),
                 'type'         => 'url',
-                'name'         => 'json_url'
+                'name'         => 'json_url',
+                'required'     => true
             ] );
         }
 
@@ -73,11 +74,8 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
          * @since 0.0.1-alpha
          *
          */
-        function render_field( $field ) {
-            // echo '<pre>';
-            // print_r( $field );
-            // echo '</pre>'; ?>
-            <select name="<?php echo esc_attr( $field[ 'name' ] ); ?>" id="<?php echo esc_attr( $field[ 'id' ] ); ?>"></select>
+        function render_field( $field ) { ?>
+            <input type="text" value="<?php echo esc_attr( $field[ 'value' ] ); ?>" id="<?php echo esc_attr( $field[ 'id' ] ); ?>" name="<?php echo esc_attr( $field[ 'name' ] ); ?>" class="rhicomoon-select-field <?php echo esc_attr( $field[ 'class' ] ); ?>" data-json-url="<?php echo esc_attr( $field[ 'json_url' ] ); ?>"/>
         <?php }
 
         /**
@@ -86,11 +84,27 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
          * @since 0.0.1-alpha
          */
         function input_admin_enqueue_scripts() {
+            # vars
             $url     = $this->settings[ 'url' ];
             $version = $this->settings[ 'version' ];
+
+            # register and include CSS
+            wp_register_style( 'rhicomoon-css', $url . 'assets/dist/css/style.css', [ 'acf-input' ], $version );
+            wp_enqueue_style( 'rhicomoon-css' );
+
+            # register and include JS
+            wp_register_script( 'rhicomoon-js', $url . 'assets/dist/js/bundle.min.js', [ 'jquery', 'acf-input' ], $version );
+            wp_enqueue_script( 'rhicomoon-js' );
+
+            $icoMoonJsonFile = '';
+            $icoMoonJsonFile = apply_filters( 'rhicomoon_json_url', $icoMoonJsonFile );
+
+            wp_localize_script( 'rhicomoon-js', 'rhicomoon', [
+                'icoMoonJsonFile' => $icoMoonJsonFile
+            ] );
         }
     }
 
-    # call class
+# call class
     new acf_field_icomoon_select( $this->settings );
 endif;
