@@ -46,4 +46,5 @@ function change_rhicomoon_assets_url() {
 }
 ```
 
+#### Credits
 Thanks [@swashata](https://github.com/swashata) and [@micc83](https://github.com/micc83) for the jquery plugin fonticonpicker
