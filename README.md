@@ -34,4 +34,4 @@ function change_icomoon_json_url() {
 }
 ```
 
-Thanks @swashata and @micc83 for the amazing jquery plugin fonticonpicker
+Thanks [@swashata](https://github.com/swashata) and [@micc83](https://github.com/micc83) for the amazing jquery plugin fonticonpicker
