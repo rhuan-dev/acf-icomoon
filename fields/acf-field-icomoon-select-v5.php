@@ -87,6 +87,10 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
             $url     = $this->settings[ 'url' ];
             $version = $this->settings[ 'version' ];
 
+            # filters
+            $icoMoonJsonFile = apply_filters( 'rhicomoon_json_url', '' );
+            $url             = apply_filters( 'rhicomoon_assets_url', $url );
+
             # register and include CSS
             wp_register_style( 'rhicomoon-css', $url . 'assets/dist/css/style.css', [ 'acf-input' ], $version );
             wp_enqueue_style( 'rhicomoon-css' );
@@ -95,8 +99,6 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
             wp_register_script( 'rhicomoon-js', $url . 'assets/dist/js/bundle.min.js', [ 'jquery', 'acf-input' ], $version );
             wp_enqueue_script( 'rhicomoon-js' );
 
-            $icoMoonJsonFile = '';
-            $icoMoonJsonFile = apply_filters( 'rhicomoon_json_url', $icoMoonJsonFile );
 
             wp_localize_script( 'rhicomoon-js', 'rhicomoon', [
                 'icoMoonJsonFile' => $icoMoonJsonFile
@@ -104,6 +106,6 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
         }
     }
 
-# call class
+    # call class
     new acf_field_icomoon_select( $this->settings );
 endif;
