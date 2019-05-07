@@ -1,3 +1,5 @@
+**This is just my first plugin for WordPress, so feel free to contribute :)**
+
 # ACF IcoMoon
 Is a ACF Field Type to show ico select field based on selection.json generated from IcoMoon App
 
@@ -31,3 +33,5 @@ function change_icomoon_json_url() {
    return 'https://example.com/selection.json';
 }
 ```
+
+Thanks @swashata and @micc83 for the amazing jquery plugin fonticonpicker
