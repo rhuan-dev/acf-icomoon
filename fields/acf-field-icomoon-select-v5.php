@@ -59,8 +59,7 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
                 'label'        => __( 'URL JSON file', 'rhicomoon' ),
                 'instructions' => __( 'Insert URL of the JSON file (selection.json) to generate list of icons' ),
                 'type'         => 'url',
-                'name'         => 'json_url',
-                'required'     => true
+                'name'         => 'json_url'
             ] );
         }
 
