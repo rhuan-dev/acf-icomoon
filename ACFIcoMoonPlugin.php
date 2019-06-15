@@ -1,11 +1,11 @@
 <?php
 /*
 	Plugin Name: Advanced Custom Fields: ACF IcoMoon
-	Plugin URI: https://github.com/rhcarlosweb/acf-icomoon
+	Plugin URI: https://github.com/rhuan-dev/acf-icomoon
 	Description: Show IcoMoon select field based on selection.json generated from IcoMoon App
 	Version: 0.0.1-alpha
 	Author: Rhuan Carlos
-	Author URI: https://rhuancarlos.com
+	Author URI: https://rhuan.dev
 	License: GPLv2 or later
 	License URI: http://www.gnu.org/licenses/gpl-2.0.html
 	Text Domain: rhicomoon
@@ -34,8 +34,8 @@ if ( !class_exists( 'ACFIcoMoonPlugin' ) ) :
             ];
 
             # include fields
-            add_action( 'acf/include_field_types', [ $this, 'include_field' ] ); // v5 action
-            add_action( 'acf/register_fields', [ $this, 'include_field' ] ); // v4 action
+            add_action( 'acf/include_field_types', [ $this, 'include_field' ] );    // v5 action
+            add_action( 'acf/register_fields', [ $this, 'include_field' ] );        // v4 action
         }
 
         /**

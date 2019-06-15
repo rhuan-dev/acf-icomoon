@@ -57,7 +57,7 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
              */
             acf_render_field_setting( $field, [
                 'label'        => __( 'URL JSON file', 'rhicomoon' ),
-                'instructions' => __( 'Insert URL of the JSON file (selection.json) to generate list of icons, necessary include font-face style in WordPress admin to show icons' ),
+                'instructions' => __( 'Insert URL of the JSON file (selection.json) to generate list of icons, necessary include font-face style in WordPress admin to show icons', 'rhicomoon' ),
                 'type'         => 'url',
                 'name'         => 'json_url'
             ] );
@@ -84,7 +84,7 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
          */
         function input_admin_enqueue_scripts() {
             # vars
-            $url     = $this->settings[ 'url' ];
+            $url     = $this->settings[ 'url' ];        // default is the plugin dir URL
             $version = $this->settings[ 'version' ];
 
             # filters

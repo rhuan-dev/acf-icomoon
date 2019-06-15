@@ -12,13 +12,14 @@
             const selectElement = $(this).fontIconPicker();
 
             // get the JSON file with icons
+            // this will get json-url data of field if the rhicomoon_json_url filter isn't defined on theme functions
             $.ajax({
                 url     : rhicomoon.icoMoonJsonFile ? rhicomoon.icoMoonJsonFile : $(this).data('json-url'),
                 type    : 'GET',
                 dataType: 'json'
             })
                 .done(function (response) {
-                    console.log(response);
+                    // console.log(response);
 
                     // Get the class prefix
                     var classPrefix = response.preferences.fontPref.prefix,

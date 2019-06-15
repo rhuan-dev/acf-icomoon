@@ -1,0 +1,67 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Custom Fields: ACF IcoMoon\n"
+"POT-Creation-Date: 2019-06-15 19:12-0300\n"
+"PO-Revision-Date: 2019-06-15 19:13-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.13\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: ACFIcoMoonPlugin.php\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: fields/acf-field-icomoon-select-v5.php:29
+msgid "IcoMoon"
+msgstr "IcoMoon"
+
+#: fields/acf-field-icomoon-select-v5.php:59
+msgid "URL JSON file"
+msgstr "URL Arquivo JSON"
+
+#: fields/acf-field-icomoon-select-v5.php:60
+msgid ""
+"Insert URL of the JSON file (selection.json) to generate list of icons, "
+"necessary include font-face style in WordPress admin to show icons"
+msgstr ""
+"Inserir URL do arquivo JSON (selection.json) para gerar lista de ícones, "
+"necessário incluir estilo font-face no WordPress admin para mostrar ícones "
+"corretamente"
+
+#. Plugin Name of the plugin/theme
+msgid "Advanced Custom Fields: ACF IcoMoon"
+msgstr "Campos personalizados avançados: ACF IcoMoon"
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/rhuan-dev/acf-icomoon"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Show IcoMoon select field based on selection.json generated from IcoMoon App"
+msgstr ""
+"Mostrar campo de seleção IcoMoon com base em selection.json gerado a partir "
+"do aplicativo IcoMoon"
+
+#. Author of the plugin/theme
+msgid "Rhuan Carlos"
+msgstr "Rhuan Carlos"
+
+#. Author URI of the plugin/theme
+msgid "https://rhuan.dev"
+msgstr "https://rhuan.dev"
+
+#~ msgid "https://github.com/rhcarlosweb/acf-icomoon"
+#~ msgstr "https://github.com/rhcarlosweb/acf-icomoon"
+
+#~ msgid "https://rhuancarlos.com"
+#~ msgstr "https://rhuancarlos.com"
