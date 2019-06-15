@@ -15,17 +15,19 @@ const babel = require('gulp-babel');
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
 const concat = require('gulp-concat');
-const merge = require('merge-stream');
+const merge2 = require('merge2');
 
 /**
  Compile CSS
  */
 const sassNodePlugins = [
+    // styles plugin fonticonpicker
     'assets/lib/fonticonpicker/css/base/jquery.fonticonpicker.min.css',
     'assets/lib/fonticonpicker/css/themes/grey-theme/jquery.fonticonpicker.grey.min.css'
 ];
 
 const sassFiles = [
+    // main styles
     'assets/sass/**/*.scss'
 ];
 
@@ -43,7 +45,7 @@ function css() {
             cascade : false
         }));
 
-    return merge(pluginsStream, sassStream)
+    return merge2(pluginsStream, sassStream)
         .pipe(concat('style.css'))
         .pipe(cleanCSS({
             level: {
@@ -59,8 +61,11 @@ function css() {
  * Compile JS
  */
 const jsFiles = [
+    // js fonticonpicker plugin
     'assets/lib/fonticonpicker/js/jquery.fonticonpicker.min.js',
-    'assets/js/main.js'
+
+    // config main select ionc
+    'assets/js/select-icon.js'
 ];
 
 function js() {

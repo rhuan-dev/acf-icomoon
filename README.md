@@ -35,14 +35,14 @@ function change_rhicomoon_json_url() {
 ```php
 /**
 * Update path url of plugin
-
+*
 * Use to embed the plugin in your theme
 *
 * @return string
 */
 add_filter( 'rhicomoon_assets_url', 'change_rhicomoon_assets_url' );
 function change_rhicomoon_assets_url() {
-   return 'https://example.com/selection.json';
+   return get_template_directory_uri() . 'pluginPath';
 }
 ```
 
