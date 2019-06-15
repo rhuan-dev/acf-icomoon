@@ -35,7 +35,7 @@ function change_rhicomoon_json_url() {
 ```php
 /**
 * Update path url of plugin
-
+*
 * Use to embed the plugin in your theme
 *
 * @return string
