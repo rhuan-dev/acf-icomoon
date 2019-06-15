@@ -57,7 +57,7 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
              */
             acf_render_field_setting( $field, [
                 'label'        => __( 'URL JSON file', 'rhicomoon' ),
-                'instructions' => __( 'Insert URL of the JSON file (selection.json) to generate list of icons' ),
+                'instructions' => __( 'Insert URL of the JSON file (selection.json) to generate list of icons, necessary include font-face style in WordPress admin to show icons' ),
                 'type'         => 'url',
                 'name'         => 'json_url'
             ] );
@@ -88,8 +88,8 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
             $version = $this->settings[ 'version' ];
 
             # filters
-            $icoMoonJsonFile = apply_filters( 'rhicomoon_json_url', '' );
-            $url             = apply_filters( 'rhicomoon_assets_url', $url );
+            $icoMoonJsonFile = apply_filters( 'rhicomoon_json_url', '' );           // JSON selection.json URL
+            $url             = apply_filters( 'rhicomoon_assets_url', $url );       // assets path URI
 
             # register and include CSS
             wp_register_style( 'rhicomoon-css', $url . 'assets/dist/css/style.css', [ 'acf-input' ], $version );
@@ -99,7 +99,7 @@ if ( !class_exists( 'acf_field_icomoon_select' ) ) :
             wp_register_script( 'rhicomoon-js', $url . 'assets/dist/js/bundle.min.js', [ 'jquery', 'acf-input' ], $version );
             wp_enqueue_script( 'rhicomoon-js' );
 
-
+            # localize var rhicomoon.icoMoonJsonFile javascript
             wp_localize_script( 'rhicomoon-js', 'rhicomoon', [
                 'icoMoonJsonFile' => $icoMoonJsonFile
             ] );
