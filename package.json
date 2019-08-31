@@ -29,7 +29,7 @@
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
-    "gulp-sass-glob": "^1.0.9",
+    "gulp-sass-glob": "^1.1.0",
     "gulp-uglify": "^3.0.2",
     "merge2": "^1.2.3"
   },
