@@ -2,8 +2,6 @@
 
 A WordPress plugin that adds an IcoMoon icon selector field to Advanced Custom Fields (ACF). This field allows you to easily integrate IcoMoon icons into your ACF fields.
 
-![ACF IcoMoon Field](screenshots/preview.png)
-
 ## Features
 
 - 🎯 Easy integration with IcoMoon App
