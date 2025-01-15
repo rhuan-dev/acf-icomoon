@@ -1,62 +1,171 @@
 <?php
-/*
-	Plugin Name: Advanced Custom Fields: ACF IcoMoon
-	Plugin URI: https://github.com/rhuan-dev/acf-icomoon
-	Description: Show IcoMoon select field based on selection.json generated from IcoMoon App
-	Version: 0.0.1-alpha
-	Author: Rhuan Carlos
-	Author URI: https://rhuan.dev
-	License: GPLv2 or later
-	License URI: http://www.gnu.org/licenses/gpl-2.0.html
-	Text Domain: rhicomoon
-*/
+/**
+ * Plugin Name: Advanced Custom Fields: IcoMoon
+ * Plugin URI: https://github.com/rhcarlosweb/acf-icomoon
+ * Description: Show IcoMoon select field based on selection.json generated from IcoMoon App
+ * Version: 0.0.1-alpha
+ * Requires at least: 5.8
+ * Requires PHP: 7.4
+ * Author: Rhuan Carlos
+ * Author URI: https://rhuan.dev
+ * License: GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: rhicomoon
+ * Domain Path: /lang
+ *
+ * @package ACF_IcoMoon
+ */
 
-# exit accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly
+if (!defined('ABSPATH')) {
+    exit;
+}
 
-if ( !class_exists( 'ACFIcoMoonPlugin' ) ) :
-    class ACFIcoMoonPlugin {
-        # vars
-        var $settings;
+if (!class_exists('ACFIcoMoonPlugin')):
+
+    class ACFIcoMoonPlugin
+    {
+        /**
+         * Plugin version.
+         *
+         * @var string
+         */
+        const VERSION = '0.0.1-alpha';
 
         /**
-         * ACFIcoMoonPlugin constructor.*
+         * Plugin instance.
          *
-         * @since 0.0.1-alpha
+         * @var ACFIcoMoonPlugin|null
          */
-        function __construct() {
-            # settings
-            # these will be passed into the field class.
-            $this->settings = [
-                'version' => '0.0.1-alpha',
-                'url'     => plugin_dir_url( __FILE__ ),
-                'path'    => plugin_dir_path( __FILE__ )
-            ];
+        private static $instance = null;
 
-            # include fields
-            add_action( 'acf/include_field_types', [ $this, 'include_field' ] );    // v5 action
-            add_action( 'acf/register_fields', [ $this, 'include_field' ] );        // v4 action
+        /**
+         * Plugin settings.
+         *
+         * @var array
+         */
+        private $settings;
+
+        /**
+         * Get plugin instance.
+         *
+         * @return ACFIcoMoonPlugin
+         */
+        public static function instance()
+        {
+            if (null === self::$instance) {
+                self::$instance = new self();
+            }
+            return self::$instance;
         }
 
         /**
-         * include_field
-         *
-         * @param bool $version (int)major ACF version. Defaults to false
-         *
-         * @since 0.0.1-alpha
+         * Constructor.
          */
-        function include_field( $version = false ) {
-            # support empty $version
-            if ( !$version ) $version = 4;
+        private function __construct()
+        {
+            $this->define_constants();
+            $this->init_settings();
+            $this->init_hooks();
+        }
 
-            # textdomain
-            load_plugin_textdomain( 'rhicomoon', false, plugin_basename( dirname( __FILE__ ) ) . '/lang' );
+        /**
+         * Define plugin constants.
+         */
+        private function define_constants()
+        {
+            define('ACF_ICOMOON_VERSION', self::VERSION);
+            define('ACF_ICOMOON_FILE', __FILE__);
+            define('ACF_ICOMOON_PATH', plugin_dir_path(__FILE__));
+            define('ACF_ICOMOON_URL', plugin_dir_url(__FILE__));
+        }
 
-            # include fields
-            include_once( 'fields/acf-field-icomoon-select-v' . $version . '.php' );
+        /**
+         * Initialize settings.
+         */
+        private function init_settings()
+        {
+            $this->settings = [
+                'version' => self::VERSION,
+                'url' => ACF_ICOMOON_URL,
+                'path' => ACF_ICOMOON_PATH
+            ];
+        }
+
+        /**
+         * Initialize hooks.
+         */
+        private function init_hooks()
+        {
+            // Check if ACF is active
+            add_action('plugins_loaded', [$this, 'check_acf']);
+
+            // Load plugin textdomain
+            add_action('init', [$this, 'load_textdomain']);
+
+            // Include field
+            add_action('acf/include_field_types', [$this, 'include_field']);
+            add_action('acf/register_fields', [$this, 'include_field']); // ACF4
+        }
+
+        /**
+         * Check if ACF is active.
+         */
+        public function check_acf()
+        {
+            if (!class_exists('ACF')) {
+                add_action('admin_notices', function () {
+                    ?>
+                    <div class="notice notice-error">
+                        <p><?php _e('ACF IcoMoon requires Advanced Custom Fields to be installed and activated.', 'rhicomoon'); ?></p>
+                    </div>
+                    <?php
+                });
+                return;
+            }
+        }
+
+        /**
+         * Load plugin textdomain.
+         */
+        public function load_textdomain()
+        {
+            load_plugin_textdomain('rhicomoon', false, dirname(plugin_basename(__FILE__)) . '/lang');
+        }
+
+        /**
+         * Include field.
+         *
+         * @param int|bool $version Major ACF version. Defaults to false.
+         */
+        public function include_field($version = false)
+        {
+            if (!$version) {
+                $version = 5;
+            }
+
+            include_once sprintf('%sfields/acf-field-icomoon-select-v%d.php', ACF_ICOMOON_PATH, $version);
+        }
+
+        /**
+         * Get plugin settings.
+         *
+         * @return array
+         */
+        public function get_settings()
+        {
+            return $this->settings;
         }
     }
 
-    # call class
-    new ACFIcoMoonPlugin();
+    // Initialize plugin
+    function acf_icomoon()
+    {
+        return ACFIcoMoonPlugin::instance();
+    }
+
+    // Let's roll!
+    acf_icomoon();
+
+endif;
 endif;

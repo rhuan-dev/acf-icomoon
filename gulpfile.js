@@ -2,7 +2,7 @@
 const {src, dest, parallel, series, watch} = require('gulp');
 
 // css plugins
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const sassGlob = require('gulp-sass-glob');
 const cleanCSS = require('gulp-clean-css');
@@ -18,7 +18,7 @@ const concat = require('gulp-concat');
 const merge2 = require('merge2');
 
 /**
- Compile CSS
+ * Compile CSS
  */
 const sassNodePlugins = [
     // styles plugin fonticonpicker
@@ -32,18 +32,15 @@ const sassFiles = [
 ];
 
 function css() {
-    // nodep lugins
+    // node plugins
     const pluginsStream = src(sassNodePlugins);
 
     //sass files to merge
     const sassStream = src(sassFiles)
         .pipe(plumber())
         .pipe(sassGlob())
-        .pipe(sass.sync({outputStyle: 'nested'}).on('error', sass.logError))
-        .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
-            cascade : false
-        }));
+        .pipe(sass.sync({outputStyle: 'compressed'}).on('error', sass.logError))
+        .pipe(autoprefixer());
 
     return merge2(pluginsStream, sassStream)
         .pipe(concat('style.css'))
@@ -64,19 +61,27 @@ const jsFiles = [
     // js fonticonpicker plugin
     'assets/lib/fonticonpicker/js/jquery.fonticonpicker.min.js',
 
-    // config main select ionc
+    // config main select icon
     'assets/js/select-icon.js'
 ];
 
 function js() {
     return src(jsFiles)
+        .pipe(plumber())
         .pipe(concat('bundle.js'))
         .pipe(dest('assets/dist/js'))
         .pipe(rename('bundle.min.js'))
         .pipe(babel({
             presets: [
                 ['@babel/preset-env', {
-                    modules: false
+                    modules: false,
+                    targets: {
+                        browsers: [
+                            'last 2 versions',
+                            '> 1%',
+                            'not dead'
+                        ]
+                    }
                 }]
             ],
         }))
@@ -89,20 +94,17 @@ function js() {
  */
 function watchFiles() {
     watch(sassFiles, {usePolling: true}, css);
-
     watch(jsFiles, {usePolling: true}, js);
 }
 
 /**
- * Complex task
- * @type {function(): *}
+ * Complex tasks
  */
 const server = parallel(series(js, css, watchFiles));
 const build = series(js, css);
 
 /**
  * Exports tasks
- * @type {function(): *}
  */
 exports.css = css;
 exports.js = js;

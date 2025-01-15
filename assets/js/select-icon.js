@@ -1,69 +1,120 @@
-(function ($) {
+/**
+ * ACF IcoMoon Field
+ * 
+ * @since 0.0.1-alpha
+ */
+(($) => {
+    'use strict';
+
     /**
-     *  initialize_field
+     * Initialize the icon picker field.
      *
-     *  This function will initialize the $field.
-     *
-     *  @since   0.0.1-alpha
+     * @param {jQuery} $field The field element.
      */
-    function initialize_field($field) {
-        $field.find('.rhicomoon-select-field ').each(function () {
-            // fonticonpicker initialize
-            const selectElement = $(this).fontIconPicker();
+    const initializeField = ($field) => {
+        const $select = $field.find('.rhicomoon-select-field');
+        const $preview = $field.find('.acf-icomoon-preview');
 
-            // get the JSON file with icons
-            // this will get json-url data of field if the rhicomoon_json_url filter isn't defined on theme functions
-            $.ajax({
-                url     : rhicomoon.icoMoonJsonFile ? rhicomoon.icoMoonJsonFile : $(this).data('json-url'),
-                type    : 'GET',
-                dataType: 'json'
-            })
-                .done(function (response) {
-                    // console.log(response);
+        if (!$select.length) {
+            return;
+        }
 
-                    // Get the class prefix
-                    var classPrefix = response.preferences.fontPref.prefix,
-                        icomoon_json_icons = [],
-                        icomoon_json_search = [];
+        // Initialize FontIconPicker with options
+        const picker = $select.fontIconPicker({
+            theme: 'fip-grey',
+            iconsPerPage: 20,
+            emptyIcon: true,
+            emptyIconValue: '',
+            appendTo: 'self',
+            allCategoryText: 'From: ',
+            searchPlaceholder: rhicomoon.i18n?.loading || 'Loading icons...'
+        }).data('fontIconPicker');
 
-                    // For each icon
-                    $.each(response.icons, function (i, v) {
+        // Show loading state
+        $preview.html(`<span class="acf-icon -loading"></span> ${rhicomoon.i18n?.loading || 'Loading icons...'}`);
 
-                        // Set the source
-                        icomoon_json_icons.push(classPrefix + v.properties.name);
+        // Get the JSON file URL
+        const jsonUrl = rhicomoon.icoMoonJsonFile || $select.data('json-url');
 
-                        // Create and set the search source
-                        if (v.icon && v.icon.tags && v.icon.tags.length) {
-                            icomoon_json_search.push(v.properties.name + ' ' + v.icon.tags.join(' '));
-                        } else {
-                            icomoon_json_search.push(v.properties.name);
-                        }
-                    });
+        if (!jsonUrl) {
+            console.error('No IcoMoon JSON URL provided');
+            $preview.html(`<span class="acf-icon -warning"></span> ${rhicomoon.i18n?.error_loading || 'Error loading icons'}`);
+            return;
+        }
 
-                    // Set new fonts on fontIconPicker
-                    selectElement.setIcons(icomoon_json_icons, icomoon_json_search);
-                })
-                .fail(function () {
-                    console.log('Error icons not loaded');
+        // Fetch and process icons
+        $.ajax({
+            url: jsonUrl,
+            type: 'GET',
+            dataType: 'json',
+            cache: true
+        })
+        .done((response) => {
+            try {
+                if (!response?.icons?.length || !response?.preferences?.fontPref?.prefix) {
+                    throw new Error('Invalid IcoMoon JSON format');
+                }
+
+                const classPrefix = response.preferences.fontPref.prefix;
+                const icons = [];
+                const searchTerms = [];
+
+                // Process each icon
+                response.icons.forEach((icon) => {
+                    const name = classPrefix + icon.properties.name;
+                    icons.push(name);
+
+                    // Build search terms
+                    const terms = [icon.properties.name];
+                    if (icon.icon?.tags?.length) {
+                        terms.push(...icon.icon.tags);
+                    }
+                    searchTerms.push(terms.join(' '));
                 });
-        });
-    }
 
-    if (typeof acf.add_action !== 'undefined') {
-        /*
-        *  ready & append (ACF5)
-        */
-        acf.add_action('ready_field/type=icomoon_select', initialize_field);
-        acf.add_action('append_field/type=icomoon_select', initialize_field);
+                // Update picker with icons
+                picker.setIcons(icons, searchTerms);
+                
+                // Clear loading state
+                $preview.empty();
+
+                // Update placeholder
+                picker.refreshPlaceholder($select.data('placeholder'));
+
+                // Trigger change event to update preview if there's a value
+                if ($select.val()) {
+                    $select.trigger('change');
+                }
+            } catch (error) {
+                console.error('Error processing icons:', error);
+                $preview.html(`<span class="acf-icon -warning"></span> ${rhicomoon.i18n?.error_loading || 'Error loading icons'}`);
+            }
+        })
+        .fail((jqXHR, textStatus, errorThrown) => {
+            console.error('Error loading icons:', textStatus, errorThrown);
+            $preview.html(`<span class="acf-icon -warning"></span> ${rhicomoon.i18n?.error_loading || 'Error loading icons'}`);
+        });
+
+        // Handle icon selection change
+        $select.on('change', function() {
+            const value = $(this).val();
+            if (value) {
+                $preview.html(`<i class="${value}"></i> <code>${value}</code>`);
+            } else {
+                $preview.empty();
+            }
+        });
+    };
+
+    // Register field initialization for ACF 5+
+    if (typeof acf.addAction !== 'undefined') {
+        acf.addAction('ready_field/type=icomoon_select', initializeField);
+        acf.addAction('append_field/type=icomoon_select', initializeField);
     } else {
-        /*
-        *  acf/setup_fields (ACF4)
-        */
-        $(document).on('acf/setup_fields', function (e, postbox) {
-            // find all relevant fields
-            $(postbox).find('.field[data-field_type="icomoon_select"]').each(function () {
-                // initialize
-                initialize_field($(this));
+        // Legacy support for ACF 4
+        $(document).on('acf/setup_fields', function(e, postbox) {
+            $(postbox).find('.field[data-field_type="icomoon_select"]').each(function() {
+                initializeField($(this));
             });
         });
     }
